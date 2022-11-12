@@ -1,12 +1,12 @@
 version: '3'
 
 services:
-  mysql:
+  todolistmysql:
     image: mysql:latest
-    container_name: todo_task
+    container_name: todolistmysql
     environment:
       MYSQL_ROOT_PASSWORD: admin
     ports:
       - '9001:3306'
     volumes:
-      - ./mysql:/var/lib/mysql
+      - ./database:/var/lib/mysql
