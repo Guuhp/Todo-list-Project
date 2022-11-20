@@ -12,7 +12,7 @@ export class TaskController {
     return this.taskService.create(createTaskDto);
   }
 
-  @Get('list')
+  @Get('')
   findAll() {
     return this.taskService.findAll();
   }
