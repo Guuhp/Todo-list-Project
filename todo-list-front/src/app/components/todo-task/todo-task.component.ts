@@ -11,44 +11,59 @@ import { TodoTaskDialogComponent } from '../todo-task-dialog/todo-task-dialog.co
   styleUrls: ['./todo-task.component.css'],
 })
 export class TodoTaskComponent implements OnInit {
-  ngOnInit(): void {}
-  id?: number;
   name?: string;
   displayedColumns: string[] = ['id', 'name', 'action'];
   @ViewChild(MatTable)
   table!: MatTable<Task>;
   dataSource!: Task[];
-
+  
+  user!: Task;
+  
+  
   constructor(private taskService: TaskService, public dialog: MatDialog) {
     this.taskService.getTask().subscribe((data: Task[]) => {
       console.log(data);
       this.dataSource = data;
     });
   }
-
   
+  ngOnInit(): void {
+    this.user={
+      name:''
+    }
+  }
+  
+
 
   openDialog(taskz: Task | null): void {
     const dialogRef = this.dialog.open(TodoTaskDialogComponent, {
       width: '250px',
-      data: { id: this.id, name: this.name },
+      data: taskz ===null?{
+        id:'',
+        name:''
+      }:{
+        id:taskz.id,
+        name:taskz.name
+      }
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined) {
-        this.taskService.createTask(result).subscribe((tasks)=>{
-          this.dataSource=tasks;
-        })
-        this.table.renderRows()
+        console.log(result)
+
+        this.taskService.createTask(result)
+        .subscribe((data: Task) => {
+          this.dataSource.push(data);
+          this.table.renderRows();
+        });
       }
     });
   }
 
-  // remove(taskId:number):void {
-  //   this.taskService.delete(taskId).subscribe((result)=>{
-  //     this.dataSource=result;
-  //     console.log(this.dataSource)
-  //     this.table.renderRows()
-  //   })
-  // }
+  remove(taskId:string):void {
+    this.taskService.deleteTask(taskId).subscribe((result)=>{
+      this.dataSource=this.dataSource.filter((id)=>id.id!==taskId)
+      this.table.renderRows()
+    })
+  }
 }

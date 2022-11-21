@@ -16,11 +16,15 @@ export class TaskService {
     return this.http.get<Task[]>(this.urlAPI)
   }
 
-  createTask(task:Task):Observable<Task[]>{
-    return this.http.post<Task[]>(this.urlAPI,task)
+  createTask(task:Task):Observable<Task>{
+    console.log(task)
+    return this.http.post<Task>(`${this.urlAPI}create`,task)
   }
 
-  
+  deleteTask(idTask:string):Observable<any>{
+    console.log(idTask)
+    return this.http.delete<any>(`${this.urlAPI}delete/${idTask}`)
+  }
 
   // create(task: Task): Observable<Task[]> {    
   //   this.TASKS.push(task);
