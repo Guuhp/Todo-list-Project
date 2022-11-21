@@ -42,6 +42,7 @@ export class TodoTaskComponent implements OnInit {
               status: undefined,
             }
           : {
+              id: taskz.id,
               name: taskz.name,
               status: taskz.status,
             },
@@ -49,19 +50,31 @@ export class TodoTaskComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined) {
-        console.log(result);
-        this.taskService.save(result).subscribe({
-          next: (user) => {
-            this.dataSource.push(user)
+        //edit
+        if (this.dataSource.map((p) => p.id).includes(result.id)) {
+          this.taskService.update(result.id,result).subscribe((data: Task) => {
+            this.dataSource[result.id - 1] = data;
+            console.log(this.dataSource[result.id -1]);
             this.table.renderRows();
-          },
-        });
+          });
+        } else {
+          this.taskService.save(result).subscribe({
+            next: (user) => {
+              this.dataSource.push(user);
+              this.table.renderRows();
+            },
+          });
+        }
       }
     });
   }
 
+  editTask(task: Task): void {
+    this.openDialog(task);
+  }
+
   remove(taskId: string): void {
-    this.taskService.deleteTask(taskId).subscribe((result) => {
+    this.taskService.deleteTask(taskId).subscribe(() => {
       this.dataSource = this.dataSource.filter((id) => id.id !== taskId);
       this.table.renderRows();
     });

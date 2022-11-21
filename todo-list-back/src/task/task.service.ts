@@ -27,6 +27,7 @@ export class TaskService {
   async update(id: string, updateTaskDto: UpdateTaskDto) {
     const task = await this.findOne(id)
     task.name = updateTaskDto.name;  
+    task.status=updateTaskDto.status;
     return this.taskRepository.save(task);
   }
 

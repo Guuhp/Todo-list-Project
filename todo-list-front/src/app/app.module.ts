@@ -9,22 +9,23 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TodoTaskDialogComponent } from './components/todo-task-dialog/todo-task-dialog.component';
 import { TodoTaskComponent } from './components/todo-task/todo-task.component';
-import { FooterComponent } from './layout/footer.component';
-import { NavbarComponent } from './layout/navbar.component';
-import {MatDialogModule} from '@angular/material/dialog'; 
-import {MatFormFieldModule} from '@angular/material/form-field'; 
-import {MatInputModule} from '@angular/material/input'; 
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
-import {DragDropModule} from '@angular/cdk/drag-drop'; 
+import {DragDropModule} from '@angular/cdk/drag-drop';
 import { HttpClientModule } from '@angular/common/http';
+import { FooterComponent } from './layout/footer/footer.component';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import { ToolbarComponent } from './layout/toolbar/toolbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TodoTaskComponent,
     TodoTaskDialogComponent,
-    NavbarComponent,
     FooterComponent,
+    ToolbarComponent
   ],
   imports: [
     BrowserModule,
@@ -38,8 +39,9 @@ import { HttpClientModule } from '@angular/common/http';
     MatInputModule,
     FormsModule,
     DragDropModule,
-    HttpClientModule
-  
+    HttpClientModule,
+    MatToolbarModule
+
   ],
   providers: [],
   bootstrap: [AppComponent],

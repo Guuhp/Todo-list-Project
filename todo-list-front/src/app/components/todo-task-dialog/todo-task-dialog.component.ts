@@ -5,21 +5,26 @@ import { Task } from 'src/app/models/task';
 @Component({
   selector: 'app-todo-task-dialog',
   templateUrl: './todo-task-dialog.component.html',
-  styleUrls: ['./todo-task-dialog.component.css']
+  styleUrls: ['./todo-task-dialog.component.css'],
 })
 export class TodoTaskDialogComponent implements OnInit {
-  element!:Task;
+  element!: Task;
+  isChange!: boolean;
+
   constructor(
-    public dialogRef: MatDialogRef<TodoTaskDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Task,
+    public dialogRef: MatDialogRef<TodoTaskDialogComponent>
   ) {}
 
   ngOnInit(): void {
-      
+    if (this.data.id != null) {
+      this.isChange = true;
+    } else {
+      this.isChange = false;
+    }
   }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
-
 }
