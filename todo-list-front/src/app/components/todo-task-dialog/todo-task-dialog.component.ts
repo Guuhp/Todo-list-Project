@@ -17,7 +17,7 @@ export class TodoTaskDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (this.data.id != null) {
+    if (this.data.id == null) {
       this.isChange = true;
     } else {
       this.isChange = false;

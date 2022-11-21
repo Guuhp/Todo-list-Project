@@ -18,6 +18,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { FooterComponent } from './layout/footer/footer.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { ToolbarComponent } from './layout/toolbar/toolbar.component';
+import { DragAndDropComponent } from './components/dragAndDrop/dragAndDrop.component';
+
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import { ToolbarComponent } from './layout/toolbar/toolbar.component';
     TodoTaskComponent,
     TodoTaskDialogComponent,
     FooterComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    DragAndDropComponent
   ],
   imports: [
     BrowserModule,
