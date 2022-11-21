@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Task } from '../models/task';
@@ -7,26 +7,28 @@ import { Task } from '../models/task';
   providedIn: 'root',
 })
 export class TaskService {
+  urlAPI = 'http://localhost:3000/task/';
 
-  urlAPI = 'http://localhost:3000/task/'
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) { }
-
-  getTask():Observable<Task[]>{
-    return this.http.get<Task[]>(this.urlAPI)
+  getTask(): Observable<Task[]> {
+    return this.http.get<Task[]>(this.urlAPI);
   }
 
-  createTask(task:Task):Observable<Task>{
-    console.log(task)
-    return this.http.post<Task>(`${this.urlAPI}create`,task)
+  save(task: Task): Observable<Task> {
+    return this.http.post<Task>(`${this.urlAPI}create`, task, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    });
   }
 
-  deleteTask(idTask:string):Observable<any>{
-    console.log(idTask)
-    return this.http.delete<any>(`${this.urlAPI}delete/${idTask}`)
+  deleteTask(idTask: string): Observable<any> {
+    console.log(idTask);
+    return this.http.delete<any>(`${this.urlAPI}delete/${idTask}`);
   }
 
-  // create(task: Task): Observable<Task[]> {    
+  // create(task: Task): Observable<Task[]> {
   //   this.TASKS.push(task);
   //   return of(this.TASKS);
   // }
