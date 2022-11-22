@@ -54,8 +54,8 @@ export class TodoTaskComponent implements OnInit {
         if (this.dataSource.map((p) => p.id).includes(result.id)) {
           this.taskService.update(result.id,result).subscribe((data: Task) => {
             this.dataSource[result.id - 1] = data;
-            console.log(this.dataSource[result.id -1]);
             this.table.renderRows();
+            console.log(this.dataSource[result.id -1]);
           });
         } else {
           this.taskService.save(result).subscribe({

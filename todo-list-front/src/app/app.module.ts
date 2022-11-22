@@ -20,7 +20,6 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import { ToolbarComponent } from './layout/toolbar/toolbar.component';
 import { DragAndDropComponent } from './components/dragAndDrop/dragAndDrop.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,

@@ -22,9 +22,7 @@ export class TaskService {
       }),
     });
   }
-
-
-
+  
   deleteTask(idTask: string): Observable<any> {
     console.log(idTask);
     return this.http.delete<any>(`${this.urlAPI}delete/${idTask}`);

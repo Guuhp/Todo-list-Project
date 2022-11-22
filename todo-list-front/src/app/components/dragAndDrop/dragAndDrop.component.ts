@@ -20,9 +20,16 @@ export class DragAndDropComponent implements OnInit {
   doing: Task[] = [];
 
   done: Task[] = [];
-  constructor(private taskService: TaskService,public dialog: MatDialog) {}
+  constructor(
+    private taskService: TaskService,
+    public dialog: MatDialog
+    ) {}
 
   ngOnInit() {
+   this.loadData()
+  }
+
+  loadData(){
     this.taskService.getTask().subscribe((data: Task[]) => {
       this.todo = data;
     });
@@ -43,6 +50,7 @@ export class DragAndDropComponent implements OnInit {
         event.currentIndex
       );
     }
+    const t =event.item.data
   }
 
   openDialog(taskz: Task | null): void {
@@ -84,9 +92,19 @@ export class DragAndDropComponent implements OnInit {
     this.openDialog(task);
   }
 
-  remove(taskId: string): void {
+  removes(taskId: string): void {
     this.taskService.deleteTask(taskId).subscribe(() => {
       this.todo = this.todo.filter((id) => id.id !== taskId);
     });
+  }
+
+  remove(taskId: Task): void {
+    
+    this.taskService.deleteTask(taskId.id as string).subscribe(() => {
+      this.todo = this.todo.filter((id) => id.id !== taskId);
+    });
+
+    this.loadData()
+  
   }
 }
