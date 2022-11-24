@@ -20,18 +20,19 @@ export class DragAndDropComponent implements OnInit {
   doing: Task[] = [];
 
   done: Task[] = [];
-  constructor(
-    private taskService: TaskService,
-    public dialog: MatDialog
-    ) {}
+  constructor(private taskService: TaskService, public dialog: MatDialog) { }
 
   ngOnInit() {
-   this.loadData()
+    this.taskService.getTask().subscribe(() => {
+      this.loadData();
+    });
   }
 
-  loadData(){
+  loadData() {
     this.taskService.getTask().subscribe((data: Task[]) => {
-      this.todo = data;
+      this.todo = data.filter((p) => p.status === 'todo');
+      this.doing = data.filter((p) => p.status === 'doing');
+      this.done = data.filter((p) => p.status === 'done');
     });
   }
 
@@ -49,8 +50,11 @@ export class DragAndDropComponent implements OnInit {
         event.previousIndex,
         event.currentIndex
       );
+      const t = event.item.data
+      t.status = event.container.element.nativeElement.classList[1]
+      this.updates(t.id, t)
     }
-    const t =event.item.data
+
   }
 
   openDialog(taskz: Task | null): void {
@@ -59,28 +63,30 @@ export class DragAndDropComponent implements OnInit {
       data:
         taskz === null
           ? {
-              name: '',
-              status: undefined,
-            }
+            name: '',
+            status: undefined,
+          }
           : {
-              id: taskz.id,
-              name: taskz.name,
-              status: taskz.status,
-            },
+            id: taskz.id,
+            name: taskz.name,
+            status: taskz.status,
+          },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result !== undefined) {
         //edit
         if (this.todo.map((p) => p.id).includes(result.id)) {
-          this.taskService.update(result.id,result).subscribe((item: Task) => {
+          this.taskService.update(result.id, result).subscribe((item: Task) => {
             this.todo[result.id - 1] = item;
-            console.log(this.todo[result.id -1]);
+            console.log(this.todo[result.id - 1]);
+            this.loadData();
           });
         } else {
           this.taskService.save(result).subscribe({
             next: (user) => {
               this.todo.push(user);
+              this.loadData();
             },
           });
         }
@@ -99,12 +105,30 @@ export class DragAndDropComponent implements OnInit {
   }
 
   remove(taskId: Task): void {
-    
     this.taskService.deleteTask(taskId.id as string).subscribe(() => {
       this.todo = this.todo.filter((id) => id.id !== taskId);
+      this.loadData();
     });
-
-    this.loadData()
-  
   }
+
+  updates(id: string, task: Task) {
+    this.taskService.updateStatus(id, task).subscribe((item: Task) => {
+      if (task.status === 'todo') {
+        this.todo[id as any - 1] = item;
+        console.log(this.todo[id as any - 1]);
+        this.loadData();
+      }
+      if(task.status === 'doing'){
+        this.doing[id as any - 1] = item;
+        console.log(this.doing[id as any - 1]);
+        this.loadData();
+      }
+      if(task.status === 'done'){
+        this.done[id as any - 1] = item;
+        console.log(this.done[id as any - 1]);
+        this.loadData();
+      }
+    });
+  }
+
 }

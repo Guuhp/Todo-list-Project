@@ -33,6 +33,11 @@ export class TaskService {
     return this.http.put<Task>(`${this.urlAPI}update/${id}`,task)
   }
 
+  updateStatus(id:string,task:Task):Observable<Task>{
+    return this.http.put<Task>(`${this.urlAPI}update/${id}`,task)
+
+  }
+
   // create(task: Task): Observable<Task[]> {
   //   this.TASKS.push(task);
   //   return of(this.TASKS);

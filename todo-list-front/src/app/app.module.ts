@@ -19,6 +19,9 @@ import { FooterComponent } from './layout/footer/footer.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { ToolbarComponent } from './layout/toolbar/toolbar.component';
 import { DragAndDropComponent } from './components/dragAndDrop/dragAndDrop.component';
+import {MatCardModule} from '@angular/material/card'; 
+import {MatDividerModule} from '@angular/material/divider'; 
+import {MatProgressBarModule} from '@angular/material/progress-bar'; 
 
 @NgModule({
   declarations: [
@@ -42,7 +45,10 @@ import { DragAndDropComponent } from './components/dragAndDrop/dragAndDrop.compo
     FormsModule,
     DragDropModule,
     HttpClientModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatCardModule,
+    MatDividerModule,
+    MatProgressBarModule
 
   ],
   providers: [],
